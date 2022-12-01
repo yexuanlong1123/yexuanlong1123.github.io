@@ -273,7 +273,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-27 18:23:19" itemprop="dateModified" datetime="2022-11-27T18:23:19+08:00">2022-11-27</time>
+                <time title="修改时间：2022-11-30 15:01:33" itemprop="dateModified" datetime="2022-11-30T15:01:33+08:00">2022-11-30</time>
               </span>
 
           
@@ -704,8 +704,251 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 字符缓冲流测试</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IOBufferReadTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">       <span class="keyword">try</span> (</span><br><span class="line">               <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;b_based_item2\\file\\temp\\hello.txt&quot;</span>));</span><br><span class="line">           )&#123;</span><br><span class="line">           <span class="comment">//从文件中读取数据</span></span><br><span class="line">           <span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">           <span class="comment">//一次读取一行字符</span></span><br><span class="line">           <span class="keyword">while</span> ((line = br.readLine()) != <span class="literal">null</span>) &#123;</span><br><span class="line">               System.out.println(line);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ol start="5">
-<li><strong>字符输出流</strong></li>
+<li><strong>字符缓冲输出流</strong></li>
 </ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 字符缓冲输出流测试</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IOBufferWriteTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="comment">//创建字符缓冲输出对象(新添加的内容加入到文件的末尾)</span></span><br><span class="line">        <span class="type">BufferedWriter</span> <span class="variable">bw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">FileWriter</span>(<span class="string">&quot;b_based_item2\\file\\temp\\hello.txt&quot;</span>,<span class="literal">true</span>));</span><br><span class="line">        <span class="comment">//换一行</span></span><br><span class="line">        bw.newLine();</span><br><span class="line">        <span class="comment">//写入数据</span></span><br><span class="line">        bw.write(<span class="string">&quot;我本可以忍受黑暗&quot;</span>);</span><br><span class="line">        <span class="comment">//换一行</span></span><br><span class="line">        bw.newLine();</span><br><span class="line">        <span class="comment">//再写入数据</span></span><br><span class="line">        bw.write(<span class="string">&quot;假如我为曾见过光明&quot;</span>);</span><br><span class="line"></span><br><span class="line">        bw.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/20/SSM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="mysticBoy">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/20/SSM/" class="post-title-link" itemprop="url">ssm（Spring+SpringMVC+Maven）笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-20 12:31:48" itemprop="dateCreated datePublished" datetime="2022-11-20T12:31:48+08:00">2022-11-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-01 14:04:51" itemprop="dateModified" datetime="2022-12-01T14:04:51+08:00">2022-12-01</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><strong>概念</strong>：Spring是分层的Java SE&#x2F;EE应用full-stack轻量级开源框架，以loC ( Inverse Of Control:反转控制)和AOP (Aspect Oriented Programming :面向切</p>
+<p>面编程)为内核。</p>
+<p><strong>应用</strong>：提供了展现层SpringMVC和持久层Spring JDBCTemplate 以及业务层事务管理等众多的企业级应用技术，还能整合开源世界众多著名的第三方框</p>
+<p>架和类库，逐渐成为使用最多的JavaEE企业应用开源框架”</p>
+<p><strong>优势</strong></p>
+<p>（1）方便解耦，简化开发</p>
+<p>通过Spring提供的lOC容器，可以将对象间的依赖关系交由Spring进行控制，避免硬编码所造成的过度耦合。用户也不必再为单例模式类、属性文件解析</p>
+<p>等这些很底层的需求编写代码，可以更专注于上层的应用。</p>
+<p>（2）AOP编程的支持</p>
+<p>通过Spring的AOP功能，方便进行面向切面编程，许多不容易用传统OOP实现的功能可以通过AOP轻松实现。</p>
+<p>（3）声明式事务的支持</p>
+<p>可以将我们从单调烦闷的事务管理代码中解脱出来，通过声明式方式灵活的进行事务管理提高开发效率和质量。</p>
+<p>（4）方便集成各种优秀框架</p>
+<p>Spring对各种优秀框架(Struts、Hibernate、Hessian、Quartz等)的支持。</p>
+<p>（5）降低JavaEE API的使用难度</p>
+<p>Spring对JavaEEAPI(如JDBC、JavaMail、远程调用等）进行了薄薄的封装层，使这些API的使用难度大为降低。</p>
+<p>（6）Java源码是经典学习范例</p>
+<p>Spring的源代码设计精妙、结构清晰、匠心独用，处处体现着大师对Java设计模式灵活运用以及对Java技术的高深造诣。它的源代码无疑是Java技术的最佳实践的范例。</p>
+<h2 id="Spring-framework"><a href="#Spring-framework" class="headerlink" title="Spring framework"></a>Spring framework</h2><p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20221130172942524.png" alt="image-20221130172942524"></p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><h3 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h3><ul>
+<li><p>概述：使用对象时，由主动new产生对象转换为由外部提供对象，此过程中对象创建控制权由程序转移到外部，此思想称为控制反转技术对IOC思想进行了实现，Spring提供了一个容器，称为IoC容器，用来充当IoC思想中的 “外部“，IoC容器负责对象的创建、初始化等一系列工作，被创建或被管理的对象在IoC容器中统称为Bean。</p>
+</li>
+<li><p><strong>创建Bean的步骤如下</strong></p>
+<ol>
+<li>pom.xml文件中导入spring-context坐标（版本5.0.5.RELEASE）</li>
+<li>resource目录下创建spring的配置文件，通常将其命名为applicationContext.xml</li>
+<li>在applicationContext.xml利用bean标签创建即可，如下所示</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 将bookDaoImpl类交给Spring的IOC管理(将其变为bean) --&gt;</span><br><span class="line">   &lt;!-- id值随便取，class值是指向实例类 --&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;bookDao&quot;</span> class=<span class="string">&quot;com.springbased.dao.impl.BookDaoImpl&quot;</span> /&gt;</span><br><span class="line">&lt;!-- 将bookServiceImpl类交给Spring的IOC管理(将其变为bean) --&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;bookService&quot;</span> class=<span class="string">&quot;com.springbased.service.impl.BookServiceImpl&quot;</span>  /&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>从IOC容器中获取bean</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ApplicationTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//获取IOC容器</span></span><br><span class="line">        <span class="type">ApplicationContext</span> <span class="variable">ac</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br><span class="line">        <span class="comment">//根据id获取具体的bean 两种方法：</span></span><br><span class="line">        <span class="comment">//1)通过id方式获取  Object getBean(String id);</span></span><br><span class="line">        <span class="comment">//2)通过类对象获取  Class getBean(类名称.class);</span></span><br><span class="line">        <span class="type">BookService</span> <span class="variable">bookDao</span> <span class="operator">=</span> (BookService)ac.getBean(<span class="string">&quot;bookService&quot;</span>);</span><br><span class="line">        <span class="comment">//调用方法</span></span><br><span class="line">        bookDao.save();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Bean基本属性"><a href="#Bean基本属性" class="headerlink" title="Bean基本属性"></a>Bean基本属性</h2><p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20221130175356015.png" alt="image-20221130175356015"></p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20221130175501245.png" alt="image-20221130175501245"></p>
+<p>scope默认单例的原因是：在非单例下，Ioc容器创建同一个类的bean多是不同的，对bean的复用性不高，当bean创建过多会导致性能的下降，还会浪费内存空间资源，故在单例模式下的优势在于，能避免实例重复创建；应用于避免存在多个实例引起程序逻辑错误的场合；较节约内存。</p>
+<h2 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h2><ul>
+<li>生命周期︰从创建到消亡的完整过程</li>
+<li>bean生命周期: bean从创建到销毁的整体过程</li>
+<li>bean生命周期控制:在bean创建后到销毁前做一些事情</li>
+</ul>
+<p>bean的生命周期可以实现InitializingBean，DisposableBean来重写bean的初始化和销毁的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookDaoImpl</span> <span class="keyword">implements</span> <span class="title class_">BookDao</span>, InitializingBean, DisposableBean &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;saving....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//Bean被销毁前执行的方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;destroy ...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建Bean的初始化方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterPropertiesSet</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;init ...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h2><ul>
+<li><p>概述：依赖注入(Dependency Injection) :它是Spring框架核心IOC的具体实现。在编写程序时，通过控制反转，把对象的创建交给了Spring，但是代</p>
+<p>码中不可能出现没有依赖的情况。IOC解耦只是降低他们的依赖关系，但不会消除。例如:业务层仍会调用持久层的方法。那这种业务层和持久层的依</p>
+<p>赖关系，在使用Spring之后，就让Spring来维护了。简单的说，就是坐等框架把持久层对象传入业务层，而不用我们自己去获取。</p>
+</li>
+<li><p><strong>setter依赖注入方式</strong></p>
+</li>
+</ul>
+<ol>
+<li>在service层中定义成员变量来接收来自bean的注入</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">BookService</span> &#123;</span><br><span class="line">    <span class="comment">//1. 创建一个dao对象，接收来自XMl文件注入bean</span></span><br><span class="line">    <span class="keyword">private</span> BookDao bookDao;</span><br><span class="line">    <span class="comment">//2. 构造set方法接收</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setBookDao</span><span class="params">(BookDao bookDao)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.bookDao = bookDao;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span> &#123;</span><br><span class="line">        bookDao.save();</span><br><span class="line">        System.out.println(<span class="string">&quot;service save ......&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在applicationContext.xml文件中配置如下，注意：其中name对应的值是set后边的单词，以小写开头，ref的值是将name的值赋值给定的类</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 将bookDaoImpl类交给Spring的IOC管理(将其变为bean) --&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;bookDao&quot;</span> class=<span class="string">&quot;com.springbased.dao.impl.BookDaoImpl&quot;</span> /&gt;</span><br><span class="line">&lt;!-- 将bookServiceImpl类交给Spring的IOC管理(将其变为bean) --&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;bookService&quot;</span> class=<span class="string">&quot;com.springbased.service.impl.BookServiceImpl&quot;</span> &gt;</span><br><span class="line">    &lt;!--将service和dao通过property标签进行绑定--&gt;</span><br><span class="line">    &lt;!--</span><br><span class="line">        注意点：</span><br><span class="line">          name：是指向类属性的名称</span><br><span class="line">          ref：是指向bean中id为bookDao</span><br><span class="line">     --&gt;</span><br><span class="line">    &lt;property name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20221130181123964.png" alt="image-20221130181123964"></p>
+<ul>
+<li><strong>构造器依赖注入</strong></li>
+</ul>
+<ol>
+<li>在service层中创建一个构造器如下</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">BookService</span> &#123;</span><br><span class="line">    <span class="comment">//1. 创建一个dao对象，接收来自XMl文件注入bean</span></span><br><span class="line">    <span class="keyword">private</span> BookDao bookDao;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> UserDao userDao;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BookServiceImpl</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//2. 创建一个构造器，为成员变量赋值</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BookServiceImpl</span><span class="params">(BookDao bookDao, UserDao userDao)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.bookDao = bookDao;</span><br><span class="line">        <span class="built_in">this</span>.userDao = userDao;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span> &#123;</span><br><span class="line">        bookDao.save();</span><br><span class="line">        System.out.println(<span class="string">&quot;service save ......&quot;</span>);</span><br><span class="line">        userDao.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>xml的配置如下，构造器注入的标签是constructor-arg</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 将bookDaoImpl类交给Spring的IOC管理(将其变为bean) --&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;bookDao&quot;</span> class=<span class="string">&quot;com.springbased1.dao.impl.BookDaoImpl&quot;</span>/&gt;</span><br><span class="line">&lt;!-- 将userDao加载成bean --&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;userDao&quot;</span> class=<span class="string">&quot;com.springbased1.dao.impl.UserDaoImpl&quot;</span>/&gt;</span><br><span class="line">&lt;!-- 将bookServiceImpl类交给Spring的IOC管理(将其变为bean) --&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;bookService&quot;</span> class=<span class="string">&quot;com.springbased1.service.impl.BookServiceImpl&quot;</span>&gt;</span><br><span class="line">    &lt;constructor-arg name=<span class="string">&quot;userDao&quot;</span> ref=<span class="string">&quot;userDao&quot;</span> /&gt;  </span><br><span class="line">    &lt;constructor-arg name=<span class="string">&quot;bookDao&quot;</span> ref=<span class="string">&quot;bookDao&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>构造器注入的过程</li>
+</ol>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20221130183436290.png" alt="image-20221130183436290"></p>
+<h2 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h2><ul>
+<li>配置中使用bean标签autowire属性设置自动装配的类型，如下所示是applicationContext.xml的配置</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 将bookDaoImpl类交给Spring的IOC管理(将其变为bean) --&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;bookDao&quot;</span> class=<span class="string">&quot;com.springbased1.dao.impl.BookDaoImpl&quot;</span>/&gt;</span><br><span class="line">&lt;!-- 将userDao加载成bean --&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;userDao&quot;</span> class=<span class="string">&quot;com.springbased1.dao.impl.UserDaoImpl&quot;</span>/&gt;</span><br><span class="line">&lt;!-- byType是按类型注入 还有按名称注入byName--&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;bookService&quot;</span> class=<span class="string">&quot;com.springbased1.service.impl.BookServiceImpl&quot;</span> autowire=<span class="string">&quot;byType&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">BookService</span> &#123;</span><br><span class="line">    <span class="comment">//1. 创建一个dao对象，接收来自XMl文件注入bean</span></span><br><span class="line">    <span class="keyword">private</span> BookDao bookDao;</span><br><span class="line">    <span class="keyword">private</span> UserDao userDao;</span><br><span class="line">    <span class="comment">//在自动注入，必须提供一个setter方法，Spring的IOC容器会从setter方法作为入口赋值给该类的成员变量</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setBookDao</span><span class="params">(BookDao bookDao)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.bookDao = bookDao;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserDao</span><span class="params">(UserDao userDao)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.userDao = userDao;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span> &#123;</span><br><span class="line">        bookDao.save();</span><br><span class="line">        System.out.println(<span class="string">&quot;service save ......&quot;</span>);</span><br><span class="line">        userDao.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在使用自动装配时需注意一下几点</p>
+<ul>
+<li>自动装配用于引用类型依赖注入，不能对简单类型进行操作</li>
+<li>使用按类型装配时( byType )必须保障容器中相同类型的bean唯一，推荐使用</li>
+<li>使用按名称装配时（byName )必须保障容器中具有指定名称的bean，因变量名与配置耦合，不推荐使用</li>
+<li>自动装配优先级低于setter注入与构造器注入，同时出现时自动装配配置失效</li>
+</ul>
+<h2 id="整合第三方数据源"><a href="#整合第三方数据源" class="headerlink" title="整合第三方数据源"></a>整合第三方数据源</h2><ol>
+<li>导入druid坐标</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;druid&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;<span class="number">1.2</span><span class="number">.11</span>&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在applicationContext.xml中配置如下</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=<span class="string">&quot;dataSource&quot;</span> class=<span class="string">&quot;com.alibaba.druid.pool.DruidDataSource&quot;</span>&gt;</span><br><span class="line">    &lt;property name=<span class="string">&quot;driverClassName&quot;</span> value=<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span> /&gt;</span><br><span class="line">    &lt;property name=<span class="string">&quot;username&quot;</span> value=<span class="string">&quot;root&quot;</span> /&gt;</span><br><span class="line">    &lt;property name=<span class="string">&quot;password&quot;</span> value=<span class="string">&quot;123456&quot;</span> /&gt;</span><br><span class="line">    &lt;property name=<span class="string">&quot;url&quot;</span> value=<span class="string">&quot;jdbc:mysql//localhost:3306/test&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>整合成功的标志</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ApplicationTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//获取IOC容器中的Bean对象</span></span><br><span class="line">        <span class="type">ApplicationContext</span> <span class="variable">ac</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br><span class="line">        <span class="comment">//从容器中获取数据源</span></span><br><span class="line">        <span class="type">DataSource</span> <span class="variable">dataSource</span> <span class="operator">=</span> (DataSource)ac.getBean(<span class="string">&quot;dataSource&quot;</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(dataSource);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20221201130442404.png" alt="image-20221201130442404"></p>
+<h3 id="加载properties配置文件中的配置信息"><a href="#加载properties配置文件中的配置信息" class="headerlink" title="加载properties配置文件中的配置信息"></a>加载properties配置文件中的配置信息</h3><ul>
+<li>开启context的命名空间，在xml页面上方增加如下信息</li>
+</ul>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20221201131141810.png" alt="image-20221201131141810"></p>
+<ul>
+<li>在resource目录下定义一个装连接数据库的配置文件.properties，配置信息如下</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jdbc.url=jdbc:mysql<span class="comment">//localhost:3306/test</span></span><br><span class="line">jdbc.druidName=com.alibaba.druid.pool.DruidDataSource</span><br><span class="line">jdbc.username=root</span><br><span class="line">jdbc.password=<span class="number">123456</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在数据库连接配置中，使用占位符方式取出.properties文件中对应的值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 利用context命令，使用通配符* 将所有的.properties文件引入--&gt;</span><br><span class="line">&lt;context:property-placeholder location=<span class="string">&quot;classpath:*.properties&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 使用$占位符方式，从.properties文件取出对应的值--&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;dataSource&quot;</span> class=<span class="string">&quot;com.alibaba.druid.pool.DruidDataSource&quot;</span>&gt;</span><br><span class="line">    &lt;property name=<span class="string">&quot;driverClassName&quot;</span> value=<span class="string">&quot;$&#123;jdbc.druidName&#125;&quot;</span> /&gt;</span><br><span class="line">    &lt;property name=<span class="string">&quot;username&quot;</span> value=<span class="string">&quot;$&#123;jdbc.username&#125;&quot;</span> /&gt;</span><br><span class="line">    &lt;property name=<span class="string">&quot;password&quot;</span> value=<span class="string">&quot;$&#123;jdbc.password&#125;&quot;</span> /&gt;</span><br><span class="line">    &lt;property name=<span class="string">&quot;url&quot;</span> value=<span class="string">&quot;$&#123;jdbc.url&#125;&quot;</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注解开发"><a href="#注解开发" class="headerlink" title="注解开发"></a>注解开发</h2><ul>
+<li><strong>使用注解@Component加载Bean</strong><ol>
+<li>开启xml文件组件扫描，使用context命令</li>
+<li>在需要的类上加上注解@Component(“bean名称”)即可将此类加载成Bean</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 开启组件扫描，若没有开启扫描，注解将会失效 base-<span class="keyword">package</span>是扫描的范围--&gt;</span><br><span class="line">&lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">&quot;com.springbased1&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span> <span class="comment">//将此类加载成Bean，未给这个bean命名，则默认类型加载</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">BookService</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;service save ......&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ApplicationTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//获取IOC容器中的Bean对象</span></span><br><span class="line">        <span class="type">ApplicationContext</span> <span class="variable">ac</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br><span class="line">        <span class="comment">//根据数据类型获取bean</span></span><br><span class="line">        <span class="type">BookService</span> <span class="variable">bookService</span> <span class="operator">=</span> ac.getBean(BookService.class);</span><br><span class="line">        bookService.save();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>使用@ComponentScan注解代替xml中的组件扫描</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span> <span class="comment">//标记该类是配置类</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.springbased1&quot;)</span> <span class="comment">//开启组件扫描</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ComponentConfig</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在用配置类替换xml配置文件则需从配置类中获取容器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ApplicationTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//从配置类中获取容器</span></span><br><span class="line">        <span class="type">ApplicationContext</span> <span class="variable">ac</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(ComponentConfig.class);</span><br><span class="line">        <span class="comment">//根据数据类型获取bean，根据数据类型获取时应注意在IOC容器中只能有一个该类型的数据。</span></span><br><span class="line">        <span class="type">BookService</span> <span class="variable">bookService</span> <span class="operator">=</span> ac.getBean(BookService.class);</span><br><span class="line">        bookService.save();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       
     </div>
@@ -899,12 +1142,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
