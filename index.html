@@ -760,7 +760,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-01 14:04:51" itemprop="dateModified" datetime="2022-12-01T14:04:51+08:00">2022-12-01</time>
+                <time title="修改时间：2022-12-02 14:48:13" itemprop="dateModified" datetime="2022-12-02T14:48:13+08:00">2022-12-02</time>
               </span>
 
           
@@ -823,9 +823,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BookDaoImpl</span> <span class="keyword">implements</span> <span class="title class_">BookDao</span>, InitializingBean, DisposableBean &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;saving....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//Bean被销毁前执行的方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;destroy ...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建Bean的初始化方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterPropertiesSet</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;init ...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h2><ul>
-<li><p>概述：依赖注入(Dependency Injection) :它是Spring框架核心IOC的具体实现。在编写程序时，通过控制反转，把对象的创建交给了Spring，但是代</p>
-<p>码中不可能出现没有依赖的情况。IOC解耦只是降低他们的依赖关系，但不会消除。例如:业务层仍会调用持久层的方法。那这种业务层和持久层的依</p>
-<p>赖关系，在使用Spring之后，就让Spring来维护了。简单的说，就是坐等框架把持久层对象传入业务层，而不用我们自己去获取。</p>
+<li><p>概述：依赖注入(Dependency Injection) :它是Spring框架核心IOC的具体实现。在编写程序时，通过控制反转，把对象的创建交给了Spring，但是代码中不可能出现没有依赖的情况。IOC解耦只是降低他们的依赖关系，但不会消除。例如:业务层仍会调用持久层的方法。那这种业务层和持久层的依赖关系，在使用Spring之后，就让Spring来维护了。简单的说，就是坐等框架把持久层对象传入业务层，而不用我们自己去获取。</p>
 </li>
 <li><p><strong>setter依赖注入方式</strong></p>
 </li>
