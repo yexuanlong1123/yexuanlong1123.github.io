@@ -1,32 +1,201 @@
-extends includes/layout.pug
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>java反射机制 | mysticBoy</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述：反射是jvm中非常重要的机制，在spring系列所有的框架中底层都有涉及到反射机制，若java没有反射的话，那么也就没有如今的spring系列的框架，而且反射可以实现在不修改源码情况下来控制程序，符合了设计模式中的ocp原则（开闭原则），同时也是实现动态代理的前提。 传统方式创建对象VS反射机制创建对象  在java中传统的创建对象是new 类()，而反射中是从堆中取出Class对象并通过C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java反射机制">
+<meta property="og:url" content="http://example.com/2022/12/16/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="mysticBoy">
+<meta property="og:description" content="概述：反射是jvm中非常重要的机制，在spring系列所有的框架中底层都有涉及到反射机制，若java没有反射的话，那么也就没有如今的spring系列的框架，而且反射可以实现在不修改源码情况下来控制程序，符合了设计模式中的ocp原则（开闭原则），同时也是实现动态代理的前提。 传统方式创建对象VS反射机制创建对象  在java中传统的创建对象是new 类()，而反射中是从堆中取出Class对象并通过C">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2022-12-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:54:32.540Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/12/16/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'java反射机制',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-12-17 16:54:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-block content
-  #post
-    if top_img === false
-      include includes/header/post-info.pug
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-    article#article-container.post-content!=page.content
-    include includes/post/post-copyright.pug
-    .tag_share
-      if (theme.post_meta.post.tags)
-        .post-meta__tag-list
-          each item, index in page.tags.data
-            a(href=url_for(item.path)).post-meta__tags #[=item.name]
-      include includes/third-party/share/index.pug
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-    if theme.reward.enable && theme.reward.QR_code
-      !=partial('includes/post/reward', {}, {cache: true})
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="mysticBoy" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="mysticBoy"><span class="site-name">mysticBoy</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">java反射机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-12-15T16:00:00.000Z" title="发表于 2022-12-16 00:00:00">2022-12-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-12-17T08:54:32.540Z" title="更新于 2022-12-17 16:54:32">2022-12-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="java反射机制"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>概述：反射是jvm中非常重要的机制，在spring系列所有的框架中底层都有涉及到反射机制，若java没有反射的话，那么也就没有如今的spring系列的框架，而且反射可以实现在不修改源码情况下来控制程序，符合了设计模式中的ocp原则（开闭原则），同时也是实现动态代理的前提。</p>
+<p><strong>传统方式创建对象VS反射机制创建对象</strong> </p>
+<p>在java中传统的创建对象是new 类()，而反射中是从堆中取出Class对象并通过Class来反射到具体的类中，对具体的类成员方法、成员属性、成员变量等类中的所有成员进行创建、调用等操作。单单看文字很难理解，以下是反射的原理图（来自B站韩孙平的反射讲解）。</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20221216211655077.png" alt="image-20221216211655077"></p>
+<p>对上图的理解：java程序有三个阶段，第一是编译阶段，在这一阶段是通过jvm虚拟机进行java代码进行编译，形成了class的字节码文件，在jvm中在通过ClassLoader（类加载器）将class的字节码文件读取到第二阶段（加载阶段）并在堆中创建Class对象，在运行阶段是可以通过new 类() 方式从堆中将Class对象创建出来，便可以对此类的成员进行操作，而反射的方式创建对象并不是如此，反射是通过具体的对象去获取具体类的结构，然后再去进行操作。</p>
+<p><strong>代码演示</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 反射演示过程--&gt;传统方式创建对象VS反射机制创建对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> mysticBoy</span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment"> * 反射常用的API有：</span></span><br><span class="line"><span class="comment"> *      java.lang.Class:代表一个类,Class对象表示某个类加载后在堆T</span></span><br><span class="line"><span class="comment"> *      java.lang.reflect.Method:代表类的方法,Method对象表示某个类的方法</span></span><br><span class="line"><span class="comment"> *      java.lang.reflect.Field:代表类的成员变量, Field对象表示某个类的成员变量</span></span><br><span class="line"><span class="comment"> *      java.lang.reflect.Constructor:代表类的构造方法, Constructor对象表示构造器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReflectionTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException &#123;</span><br><span class="line">        <span class="comment">//方式一：传统的方式调用Dog类中的成员方法</span></span><br><span class="line">        <span class="type">Dog</span> <span class="variable">dog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Dog</span>();</span><br><span class="line">        dog.hi();</span><br><span class="line">        <span class="comment">//需求：现在我需要根据配置文件去操作Dog中的成员，该如何做？</span></span><br><span class="line">        <span class="comment">//1. 用传统的方法是否可行?</span></span><br><span class="line">        <span class="comment">//(1) 首先需要从配置文件中获取到信息，可以使用Properties类获取</span></span><br><span class="line">        <span class="type">Properties</span> <span class="variable">properties</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">        <span class="comment">//(2) 通过字符输入流读取文件并加载出信息</span></span><br><span class="line">        properties.load(Files.newInputStream(Paths.get(<span class="string">&quot;c_reflection\\profile\\reflection.properties&quot;</span>)));</span><br><span class="line">        <span class="comment">//(3) 获取出类具体和具体的方法</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">allPath</span> <span class="operator">=</span> (String) properties.get(<span class="string">&quot;allPath&quot;</span>); <span class="comment">//c_reflection.Dog 类的引用路径</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">methodName</span> <span class="operator">=</span> (String) properties.get(<span class="string">&quot;methodName&quot;</span>);</span><br><span class="line">        <span class="comment">//(4) 现需要调用方hi方法，那么需要先创建对象，那要如何创建呢？</span></span><br><span class="line">        <span class="comment">//new allPath()这样创建是不行的，因为allPath是一个字符串，无法创建对象，故传统的方式是不能满足此需求的</span></span><br><span class="line">        System.out.println(<span class="string">&quot;==========反射机制===========&quot;</span>);</span><br><span class="line">        <span class="comment">//方式二：通过反射创建对象</span></span><br><span class="line">        <span class="comment">//1. 从配置文件读取的类</span></span><br><span class="line">        Class&lt;?&gt; cls = Class.forName(allPath);</span><br><span class="line">        <span class="comment">//2. 实例化类</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">instance</span> <span class="operator">=</span> cls.newInstance();</span><br><span class="line">        <span class="comment">//3. 从Class类对象中获取出方法</span></span><br><span class="line">        <span class="type">Method</span> <span class="variable">method</span> <span class="operator">=</span> cls.getMethod(methodName);</span><br><span class="line">        <span class="comment">//4. 调用方法 反射的形式：对象.实体类</span></span><br><span class="line">        method.invoke(instance);</span><br><span class="line">       <span class="comment">//  获取成员变量</span></span><br><span class="line">        <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> cls.getField(<span class="string">&quot;age&quot;</span>);</span><br><span class="line">        <span class="comment">// 通过字段获取变量</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">i</span> <span class="operator">=</span> field.get(instance);</span><br><span class="line">        System.out.println(i);</span><br><span class="line">        <span class="comment">// 获取构造器</span></span><br><span class="line">        Constructor&lt;?&gt; cts = cls.getConstructor();</span><br><span class="line">        System.out.println(cts);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> <span class="string">&quot;哈士奇&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hi</span><span class="params">()</span> &#123;System.out.println(<span class="string">&quot;hello &quot;</span> + name);&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">cry</span><span class="params">()</span> &#123;System.out.println(<span class="string">&quot;汪汪汪&quot;</span>);&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-    //- ad
-    if theme.ad && theme.ad.post
-      .ads-wrap!=theme.ad.post
-
-    if theme.post_pagination
-      include includes/pagination.pug
-    if theme.related_post && theme.related_post.enable
-      != related_posts(page,site.posts)
-
-    if page.comments !== false && theme.comments && theme.comments.use
-      - var commentsJsLoad = true
-      !=partial('includes/third-party/comments/index', {}, {cache: true})
-      
+<p><strong>反射的优缺点</strong></p>
+<ul>
+<li><p>优点：可以动态的创建和使用对象(也是框架底层核心)，使用灵活，没有反射机制，框架技术就失去底层支撑。</p>
+</li>
+<li><p>缺点：使用反射基本是解释执行，对执行速度有影响.</p>
+</li>
+</ul>
+<p><strong>Class类的特点</strong></p>
+<ul>
+<li>Class也是类，因此也继承Object类</li>
+<li>Class类对象不是new出来的，而是系统创建的</li>
+<li>对于某个类的Class类对象，在内存中只有一份，因为类只加载一次</li>
+<li>每个类的实例都会记得自己是由哪个Class 实例所生成</li>
+<li>通过Class可以完整地得到一个类的完整结构,通过一系列API</li>
+<li>Class对象是存放在堆的</li>
+</ul>
+<p><strong>静态加载VS动态加载</strong></p>
+<p>反射机制是java实现动态语言的关键，也就是通过反射实现类动态加载</p>
+<ol>
+<li>静态加载：编译时加载相关的类，如果没有则报错，依赖性太强</li>
+<li>动态加载：运行时加载需要的类，如果运行时不用该类，即使不存在该类，则不报错，降低了依赖性</li>
+</ol>
+<p><strong>类加载时机</strong></p>
+<ol>
+<li>当创建对象时（静态加载）</li>
+<li>当子类被加载时，父类也加载</li>
+<li>调用类中的静态成员时</li>
+<li>通过反射（动态加载）</li>
+</ol>
+<p><strong>类加载过程图</strong></p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20221217161305473.png" alt="image-20221217161305473"></p>
+<p><strong>类加载三阶段的具体流程</strong></p>
+<p>在加载过程和连接过程是由jvm机控制的，而初始化是可以由程序员进行控制，注意这里的初始化是类中的初始静态代码块，而不是创建一个对象。</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20221217161441058.png" alt="image-20221217161441058"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/12/16/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/">http://example.com/2022/12/16/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">mysticBoy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java%E5%9F%BA%E7%A1%80/">java基础</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/01/%E5%A4%A7%E5%9E%8B%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/" title="gulimall-deveploy"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">gulimall-deveploy</div></div></a></div><div class="next-post pull-right"><a href="/2022/12/02/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" title="微服务"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">微服务</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/11/23/java%E5%9F%BA%E7%A1%80%EF%BC%88%E8%8A%82%E9%80%89%EF%BC%89/" title="java基础（节选）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-23</div><div class="title">java基础（节选）</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/17/java%E9%9D%A2%E8%AF%95%E7%AF%87%E7%AC%94%E8%AE%B0/" title="java面试篇笔记">java面试篇笔记</a><time datetime="2023-01-17T11:20:00.000Z" title="发表于 2023-01-17 19:20:00">2023-01-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/01/%E5%A4%A7%E5%9E%8B%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/" title="gulimall-deveploy">gulimall-deveploy</a><time datetime="2023-01-01T07:05:00.000Z" title="发表于 2023-01-01 15:05:00">2023-01-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/12/16/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" title="java反射机制">java反射机制</a><time datetime="2022-12-15T16:00:00.000Z" title="发表于 2022-12-16 00:00:00">2022-12-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/12/02/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" title="微服务">微服务</a><time datetime="2022-12-02T04:31:48.000Z" title="发表于 2022-12-02 12:31:48">2022-12-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/23/java%E6%A8%A1%E6%8B%9F%E8%BF%9B%E7%A8%8B%E8%BF%90%E8%A1%8C/" title="java模拟进程运行">java模拟进程运行</a><time datetime="2022-11-23T12:09:00.000Z" title="发表于 2022-11-23 20:09:00">2022-11-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By John Doe</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
