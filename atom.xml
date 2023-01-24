@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>mysticBoy</title>
+  <title>HelloWorld</title>
   
-  
+  <subtitle>本人也是正在学习，技术不是很成熟，难免有理解错的地方，还望大佬们指正，谢谢！！！</subtitle>
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
@@ -10,7 +10,7 @@
   <id>http://example.com/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>CodeBoy</name>
     
   </author>
   
