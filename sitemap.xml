@@ -4,7 +4,7 @@
   <url>
     <loc>http://example.com/2023/01/17/java%E9%9D%A2%E8%AF%95%E7%AF%87%E7%AC%94%E8%AE%B0/</loc>
     
-    <lastmod>2023-02-01</lastmod>
+    <lastmod>2023-02-04</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -85,7 +85,7 @@
 
   <url>
     <loc>http://example.com/</loc>
-    <lastmod>2023-02-01</lastmod>
+    <lastmod>2023-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -93,49 +93,49 @@
   
   <url>
     <loc>http://example.com/tags/java%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2023-02-01</lastmod>
+    <lastmod>2023-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/java-%E4%BA%8C%E7%BB%B4%E7%A0%81/</loc>
-    <lastmod>2023-02-01</lastmod>
+    <lastmod>2023-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/java%EF%BC%8C%E8%BF%9B%E7%A8%8B%EF%BC%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
-    <lastmod>2023-02-01</lastmod>
+    <lastmod>2023-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/node-js/</loc>
-    <lastmod>2023-02-01</lastmod>
+    <lastmod>2023-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/%E9%9D%A2%E8%AF%95/</loc>
-    <lastmod>2023-02-01</lastmod>
+    <lastmod>2023-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/springcloud/</loc>
-    <lastmod>2023-02-01</lastmod>
+    <lastmod>2023-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/ssm/</loc>
-    <lastmod>2023-02-01</lastmod>
+    <lastmod>2023-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
