@@ -1,0 +1,393 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>基于JSR303的数据校验 | Welcome To New World</title><meta name="author" content="孤江自流"><meta name="copyright" content="孤江自流"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="JSR303前言简介​	是 Java EE 6 中的一项子规范，叫做 Bean Validation，官方参考实现是hibernate Validator。此实现与 Hibernate ORM 没有任何关系。 JSR 303 用于对 Java  Bean 中的字段的值进行验证。 Spring MVC 3.x 之中也大力支持 JSR-303，可以在控制器中对表单提交的数据方便地验证。简而言之就是可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于JSR303的数据校验">
+<meta property="og:url" content="http://example.com/2023/02/28/java%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C/index.html">
+<meta property="og:site_name" content="Welcome To New World">
+<meta property="og:description" content="JSR303前言简介​	是 Java EE 6 中的一项子规范，叫做 Bean Validation，官方参考实现是hibernate Validator。此实现与 Hibernate ORM 没有任何关系。 JSR 303 用于对 Java  Bean 中的字段的值进行验证。 Spring MVC 3.x 之中也大力支持 JSR-303，可以在控制器中对表单提交的数据方便地验证。简而言之就是可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/mv.jpg">
+<meta property="article:published_time" content="2023-02-28T11:27:00.000Z">
+<meta property="article:modified_time" content="2023-03-01T06:21:29.965Z">
+<meta property="article:author" content="孤江自流">
+<meta property="article:tag" content="数据校验">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/mv.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/02/28/java%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/LonelyBoy" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '基于JSR303的数据校验',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-01 14:21:29'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Welcome To New World" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/mv.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Welcome To New World"><span class="site-name">Welcome To New World</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">基于JSR303的数据校验</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-28T11:27:00.000Z" title="发表于 2023-02-28 19:27:00">2023-02-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-01T06:21:29.965Z" title="更新于 2023-03-01 14:21:29">2023-03-01</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="基于JSR303的数据校验"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="JSR303前言"><a href="#JSR303前言" class="headerlink" title="JSR303前言"></a>JSR303前言</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>​	是 Java EE 6 中的一项子规范，叫做 Bean Validation，官方参考实现是hibernate Validator。此实现与 Hibernate ORM 没有任何关系。 JSR 303 用于对 Java  Bean 中的字段的值进行验证。 Spring MVC 3.x 之中也大力支持 JSR-303，可以在控制器中对表单提交的数据方便地验证。简而言之就是可以在Spring<strong>框架中使用注解进行数据校验</strong></p>
+<h2 id="Bean-Validation"><a href="#Bean-Validation" class="headerlink" title="Bean Validation"></a>Bean Validation</h2><p><strong>概述：</strong>在任何时候，当你要处理一个应用程序的业务逻辑，数据校验是你必须要考虑和面对的事情。应用程序必须通过某种手段来确保输入进来的数据从语义上来讲是正确的。在通常的情况下，应用程序是分层的，不同的层由不同的开发人员来完成。很多时候同样的数据验证逻辑会出现在不同的层，这样就会导致代码冗余和一些管理的问题，比如说语义的一致性等。为了避免这样的情况发生，最好是将验证逻辑与相应的域模型进行绑定。</p>
+<p>【Bean Validation】 为 JavaBean 验证定义了相应的元数据模型和 API。缺省的元数据是 Java Annotations，通过使用 XML 可以对原有的元数据信息进行覆盖和扩展。在应用程序中，通过使用 Bean Validation 或是你自己定义的 constraint，例如 @NotNull, @Max, @ZipCode ， 就可以确保【数据模型】的正确性。constraint 可以附加到字段，getter 方法，类或者接口上面。对于一些特定的需求，用户可以很容易的开发定制化的 constraint。Bean Validation 是一个运行时的数据验证框架，在验证之后验证的错误信息会被马上返回。</p>
+<p style="color:red">数据模型指的是 “ JavaBean ”</p>
+
+<h1 id="JSR303的使用"><a href="#JSR303的使用" class="headerlink" title="JSR303的使用"></a>JSR303的使用</h1><h2 id="依赖引入"><a href="#依赖引入" class="headerlink" title="依赖引入"></a>依赖引入</h2><p>（ 1 ）若是在<strong>SpringBoot项目</strong>上使用JSR303数据校验，则需要引入以下坐标即可</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-validation<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>（ 2 ）<strong>非SpringBoot项目</strong>，则需要引入以下坐标，注意两个都需要引入（原因：上面的坐标是规则，下面的坐标是实现，如果只有规则没有实现，则校验规则不会生效）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 规则 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.validation<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>validation-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.1.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 实现 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hibernate<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hibernate-validator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.0.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据校验注解介绍"><a href="#数据校验注解介绍" class="headerlink" title="数据校验注解介绍"></a>数据校验注解介绍</h2><p>JSR 303 基本的校验规则是Bean Validation 中的 constraint（约束），那么以下是对常用的一些constraint介绍</p>
+<p><strong>（ 1 ）Bean Validation 中内置的 constraint</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">constraint</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">@Null</td>
+<td align="center">被注释的字段必须为 null</td>
+</tr>
+<tr>
+<td align="center">@NotNull</td>
+<td align="center">被注释的字段必须不为 null</td>
+</tr>
+<tr>
+<td align="center">@AssertTrue</td>
+<td align="center">被注释的字段必须为 true</td>
+</tr>
+<tr>
+<td align="center">@AssertFalse</td>
+<td align="center">被注释的字段必须为 false</td>
+</tr>
+<tr>
+<td align="center">@Min(value)</td>
+<td align="center">被注释的字段必须是一个数字，其值必须大于等于指定的最小值</td>
+</tr>
+<tr>
+<td align="center">@Max(value)</td>
+<td align="center">被注释的字段必须是一个数字，其值必须小于等于指定的最大值</td>
+</tr>
+<tr>
+<td align="center">@DecimalMin(value)</td>
+<td align="center">被注释的字段必须是一个数字，其值必须大于等于指定的最小值</td>
+</tr>
+<tr>
+<td align="center">@DecimalMax(value)</td>
+<td align="center">被注释的字段必须是一个数字，其值必须小于等于指定的最大值</td>
+</tr>
+<tr>
+<td align="center">@Size(max, min)</td>
+<td align="center">被注释的字段的大小必须在指定的范围内[max, min]</td>
+</tr>
+<tr>
+<td align="center">@Digits (integer, fraction)</td>
+<td align="center">被注释的字段必须是一个数字，其值必须在可接受的范围内</td>
+</tr>
+<tr>
+<td align="center">@Past</td>
+<td align="center">被注释的字段必须是一个过去的日期</td>
+</tr>
+<tr>
+<td align="center">@Futuret</td>
+<td align="center">被注释的字段必须是一个将来的日期</td>
+</tr>
+<tr>
+<td align="center">@Pattern(value)</td>
+<td align="center">被注释的字段必须符合指定的正则表达式</td>
+</tr>
+<tr>
+<td align="center">@NotBlank</td>
+<td align="center">只能作用在接收的String类型上，只能为空字符串，不能为null</td>
+</tr>
+</tbody></table>
+<p><strong>（ 2 ）Hibernate Validator 附加的 constraint</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">constraint</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">@Email</td>
+<td align="center">被注释的字段必须是电子邮箱地址</td>
+</tr>
+<tr>
+<td align="center">@Length</td>
+<td align="center">被注释的字符串的大小必须在指定的范围内</td>
+</tr>
+<tr>
+<td align="center">@NotEmpty</td>
+<td align="center">被注释的字符串的必须非空</td>
+</tr>
+<tr>
+<td align="center">@Range</td>
+<td align="center">被注释的字段必须在合适的范围内</td>
+</tr>
+</tbody></table>
+<h2 id="项目实战"><a href="#项目实战" class="headerlink" title="项目实战"></a>项目实战</h2><p>本篇文章所涉及到的工具类如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>（ 1 ）<strong>需求：</strong>对在保存用户信息前需进行信息校验，以下是用户信息实体类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long id;  <span class="comment">// 用户ID</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String username; <span class="comment">// 名称</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String password; <span class="comment">// 密码</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String email; <span class="comment">// 邮箱</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer age; <span class="comment">// 年龄</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Date birthday; <span class="comment">// 生日</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer sex; <span class="comment">// 性别</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若是用传统的数据校验方式，则需要在业务方法上进行一系列的用户信息校验，这样会显得代码冗余且杂乱。若使用JSR303的校验方式，可以在实体类中使用注解来进行校验，大大的减少在业务方法上数据校验的代码，如下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long id;  <span class="comment">// 用户ID</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotEmpty</span></span><br><span class="line">    <span class="keyword">private</span> String username; <span class="comment">// 名称</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Length(min = 6,max = 16)</span></span><br><span class="line">    <span class="keyword">private</span> String password; <span class="comment">// 密码</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Email</span></span><br><span class="line">    <span class="keyword">private</span> String email; <span class="comment">// 邮箱</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Range(min = 0, max = 120)</span></span><br><span class="line">    <span class="keyword">private</span> Integer age; <span class="comment">// 年龄</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Date birthday; <span class="comment">// 生日</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer sex; <span class="comment">// 性别</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（ 2 ）以下是Controller层的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  用户前端控制器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="meta">@Log4j2</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/save&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">saveUser</span><span class="params">(<span class="meta">@Valid</span> <span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line">        <span class="comment">// 判断数据校验是否有错误</span></span><br><span class="line">        log.info(<span class="string">&quot;user：&#123;&#125;&quot;</span>,user);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Result.success();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301123044875.png" alt="注意图"></p>
+<p>（ 3 ）后端返回给前端的数据格式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  返回给前端的数据接口类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Result</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer status; <span class="comment">// 响应状态</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String msg; <span class="comment">// 响应信息</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Object data; <span class="comment">// 响应数据</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String,Object&gt; error;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 数据处理成功</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Result <span class="title function_">success</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Result</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Result</span>();</span><br><span class="line">        r.status = <span class="number">200</span>;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Result <span class="title function_">success</span><span class="params">(Object data)</span> &#123;</span><br><span class="line">        <span class="type">Result</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Result</span>();</span><br><span class="line">        r.status = <span class="number">200</span>;</span><br><span class="line">        r.data = data;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 数据处理失败</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Result <span class="title function_">error</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Result</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Result</span>();</span><br><span class="line">        r.status = <span class="number">500</span>;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Result <span class="title function_">error</span><span class="params">(String msg)</span> &#123;</span><br><span class="line">        <span class="type">Result</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Result</span>();</span><br><span class="line">        r.status = <span class="number">500</span>;</span><br><span class="line">        r.msg = msg;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Result <span class="title function_">error</span><span class="params">(Map&lt;String,Object&gt; map)</span> &#123;</span><br><span class="line">        <span class="type">Result</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Result</span>();</span><br><span class="line">        r.status = <span class="number">500</span>;</span><br><span class="line">        r.error = map;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（ 4 ）用postman测试保存用户信息的功能</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301122543611.png" alt="用户JSON数据"></p>
+<p>（ 5 ）响应结果为下图</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301122653195.png" alt="结果1"></p>
+<p>（ 6 ）上图的响应结果对用户并不友好，我们可以在后端定义专门处理数据校验的统一异常处理器，当数据校验失败后会报一个参数校验无效错误，该错误为<strong>org.springframework.web.bind.MethodArgumentNotValidException</strong>，那么我们可以对该错误进行一个统一的拦截，并取出对应的错误字段和错误信息，封装错误信息并返回给前端。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  统一异常处理器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyExceptionHandler</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 处理数据验证的异常</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(MethodArgumentNotValidException.class)</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">handlerValidateDataException</span><span class="params">(MethodArgumentNotValidException mane)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1.获取有异常的全部字段</span></span><br><span class="line">        List&lt;FieldError&gt; fieldErrors = mane.getBindingResult().getFieldErrors();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 遍历取出各个错误字段和错误信息</span></span><br><span class="line">        Map&lt;String, Object&gt; errorMap = fieldErrors</span><br><span class="line">                .stream()</span><br><span class="line">                .collect(Collectors</span><br><span class="line">                        .toMap(key -&gt; key.getField(), value -&gt; value.getDefaultMessage()));</span><br><span class="line">        <span class="comment">// 3. 返回</span></span><br><span class="line">        <span class="keyword">return</span> Result.error(errorMap);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后端响应结果变为下图形式，这样的响应格式很容易的看出到底是哪个字段的数据校验失败了。</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301123633872.png" alt="结果2"></p>
+<h2 id="自定义数据校验注解"><a href="#自定义数据校验注解" class="headerlink" title="自定义数据校验注解"></a>自定义数据校验注解</h2><p>在User实体类中还有个性别字段还未被校验，性别字段在实际的开发过程中一般用0或者1来代表男女，我们可以来自定义一个注解来专门校验性别字段的值</p>
+<p><strong>进阶需求：</strong>自定义注解对User实体类中的sex（性别）字段进行校验，只能是0或1</p>
+<h3 id="前提知识"><a href="#前提知识" class="headerlink" title="前提知识"></a>前提知识</h3><p>（ 1 ）自定义数据校验注解需要以下的注解支持，在自定义数据校验注解上必须要有以下注解。</p>
+<table>
+<thead>
+<tr>
+<th align="center">注解</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">@Documented</td>
+<td align="center">注解是否将包含在JavaDoc中</td>
+</tr>
+<tr>
+<td align="center">@Constraint</td>
+<td align="center">绑定数据校验类</td>
+</tr>
+<tr>
+<td align="center">@Target</td>
+<td align="center">注解作用于什么地方，例如，类上、方法、字段…</td>
+</tr>
+<tr>
+<td align="center">@Retention</td>
+<td align="center">什么时候使用该注解</td>
+</tr>
+</tbody></table>
+<p>（ 2 ）@Retention(RetentionPolicy.XXX)，下表是RetentionPolicy策略的可选项</p>
+<table>
+<thead>
+<tr>
+<th align="center">RetentionPolicy</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">RetentionPolicy.SOURCE</td>
+<td align="center">仅存在于源代码中，编译阶段会被丢弃，不会包含于class字节码文件中</td>
+</tr>
+<tr>
+<td align="center">RetentionPolicy.CLASS</td>
+<td align="center">【默认策略】在class字节码文件中存在，在类加载的时被丢弃，运行时无法获取到</td>
+</tr>
+<tr>
+<td align="center">RetentionPolicy.RUNTIME</td>
+<td align="center">【常用】始终不会丢弃，可以使用反射获得该注解的信息</td>
+</tr>
+</tbody></table>
+<p>（ 3 ）一个标注(annotation) 是通过@interface关键字来定义的，这个标注中的属性是声明成类似方法的样式根据Bean Validation API 规范的要求：在注解中必须要有以下三个字段定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String <span class="title function_">message</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&#123;&#125;&quot;</span>;</span><br><span class="line"></span><br><span class="line">Class&lt;?&gt;[] groups() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">Class&lt;? <span class="keyword">extends</span> <span class="title class_">Payload</span>&gt;[] payload() <span class="keyword">default</span> &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">字段名</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">message</td>
+<td align="center">用来定义默认得消息模版, 当这个约束条件被验证失败的时候,此属性来输出错误信息</td>
+</tr>
+<tr>
+<td align="center">groups</td>
+<td align="center">用于指定这个约束条件属于哪(些)个校验组进行数据校验，数组类型</td>
+</tr>
+<tr>
+<td align="center">payload</td>
+<td align="center">约束条件指定严重级别，这个属性并不被API自身所使用</td>
+</tr>
+</tbody></table>
+<h3 id="进阶需求的实现"><a href="#进阶需求的实现" class="headerlink" title="进阶需求的实现"></a>进阶需求的实现</h3><p>（ 1 ）首先定义一个注解，注解的类型是@interface，如下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Constraint(validatedBy = &#123;CheckSexIsValid.class&#125;)</span></span><br><span class="line"><span class="meta">@Target(&#123;ElementType.METHOD, ElementType.FIELD&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SexValid &#123;</span><br><span class="line">    <span class="comment">// 默认错误信息提示</span></span><br><span class="line">    String <span class="title function_">message</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;&#123;org.example.annotation.constraint.SexValid.message&#125;&quot;</span>;</span><br><span class="line">    <span class="comment">// 用于接收被注解的字段数据</span></span><br><span class="line">    <span class="type">int</span>[] vals();</span><br><span class="line"></span><br><span class="line">    Class&lt;?&gt;[] groups() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    Class&lt;? <span class="keyword">extends</span> <span class="title class_">Payload</span>&gt;[] payload() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（ 2 ）定义数据校验的实现类，实现ConstraintValidator&lt;A extends Annotation, T&gt;接口，该接口是处理数据校验的代码逻辑实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  检查性别是否是0,1</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CheckSexIsValid</span> <span class="keyword">implements</span> <span class="title class_">ConstraintValidator</span>&lt;SexValid,Integer&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Set&lt;Integer&gt; set = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">initialize</span><span class="params">(SexValid constraintAnnotation)</span> &#123;</span><br><span class="line">        <span class="comment">// 获取被SexValid注解的约束值</span></span><br><span class="line">        <span class="type">int</span>[] vals = constraintAnnotation.vals();</span><br><span class="line">        <span class="comment">// 将约束值放入集合中</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> val: vals) &#123;</span><br><span class="line">            set.add(val);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isValid</span><span class="params">(Integer integer, ConstraintValidatorContext constraintValidatorContext)</span> &#123;</span><br><span class="line">        <span class="comment">// 判断真实值是否符号约束值</span></span><br><span class="line">        <span class="keyword">return</span> set.contains(integer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（ 3 ）@Constraint注解是可以将数据校验的实现类（CheckSexIsValid）和注解（@SexValid）进行一个绑定，以下是@Constraint绑定的过程图</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301132449401.png" alt="@Constraint绑定的过程图"></p>
+<p>（ 4 ）测试数据如下图</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301132632364.png" alt="测试数据"></p>
+<p>（ 5 ）结果</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301132744046.png" alt="结果图3"></p>
+<h2 id="分组校验"><a href="#分组校验" class="headerlink" title="分组校验"></a>分组校验</h2><p><strong>概述：</strong>分组校验也是在项目开发中很常见的校验方法，例如，在开发中有些字段在某些操作是不需要进行数据校验的，这种情况是需要对该字段进行分组校验，<strong>常见的分组定义</strong>有Post，Delete，Put，Get分别对应增删改查这四个操作。</p>
+<p><strong>需求：</strong>需对User实体类中的ID字段进行一个分组校验，当用户注册时不对ID进行一个数据校验，当用户修改信息时需要对用户ID进行一个非空校验。</p>
+<p>（ 1 ）首先需要先定义一个保存组和修改组，只需要定义个注解，无需在注解内部添加字段，这里的注解最主要是起到一个标志的作用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  保存组</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Insert &#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  修改组</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Update &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（ 2 ）如何进行分组呢？在【前提知识章节】中有写到，每个注解中都需要有的三个字段，其中一个字段group就是用来指定分组校验的</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301135656220.png" alt="image-20230301135656220"></p>
+<p>controller层的新增加一个用户修改测试接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PutMapping(&quot;/update&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">updateInfo</span><span class="params">(<span class="meta">@Validated(Update.class)</span> <span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line"></span><br><span class="line">    log.info(<span class="string">&quot;user：&#123;&#125;&quot;</span>,user);</span><br><span class="line">    <span class="keyword">return</span> Result.success();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301135925310.png" alt="注意事项图"></p>
+<p>（ 3 ）用户注册的测试结果</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301140411708.png" alt="用户注册的测试结果图"></p>
+<p>（ 4 ）用户修改的测试结果</p>
+<p><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/image-20230301140549342.png" alt="修改操作结果图"></p>
+<h2 id="Validate和-Valid的区别"><a href="#Validate和-Valid的区别" class="headerlink" title="@Validate和@Valid的区别"></a>@Validate和@Valid的区别</h2><p><strong>@Validate的特点</strong></p>
+<p>（ 1 ）【Spring】提供的验证注解：org.springframework.validation.annotation.Validated</p>
+<p>（ 2 ）提供了一个【分组功能】，可以在入参验证时，根据不同的分组采用不同的验证机制</p>
+<p>（ 3 ）可以用在类型、方法和方法参数上。但是不能用在成员属性（字段）上</p>
+<p>（ 4 ）无法提示框架进行嵌套验证</p>
+<p><strong>@Valid的特点</strong></p>
+<p>（ 1 ）javax提供的验证注解：javax.validation.Valid</p>
+<p>（ 2 ）作为标准JSR-303规范，还没有分组的功能</p>
+<p>（ 3 ）能够用在成员属性（字段）上，提示验证框架进行嵌套验证</p>
+<p style="color:red">总体上@Validate和@Valid没有太大的差别，使用的效果都是差不多的，若业务需求没有要求分组校验和嵌套验证时，这两个注解都是可以使用的且效果相同。</p></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">孤江自流</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/02/28/java%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C/">http://example.com/2023/02/28/java%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Welcome To New World</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C/">数据校验</a></div><div class="post_share"><div class="social-share" data-image="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/mv.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/02/18/mysql%E8%BF%9B%E9%98%B6%E9%83%A8%E5%88%86/" title="Mysql进阶部分"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Mysql进阶部分</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://code-blog.oss-cn-hangzhou.aliyuncs.com/images/mv.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">孤江自流</div><div class="author-info__description">日常学习笔记</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JSR303%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">JSR303前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bean-Validation"><span class="toc-number">1.2.</span> <span class="toc-text">Bean Validation</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JSR303%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">JSR303的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%BC%95%E5%85%A5"><span class="toc-number">2.1.</span> <span class="toc-text">依赖引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C%E6%B3%A8%E8%A7%A3%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.2.</span> <span class="toc-text">数据校验注解介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98"><span class="toc-number">2.3.</span> <span class="toc-text">项目实战</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C%E6%B3%A8%E8%A7%A3"><span class="toc-number">2.4.</span> <span class="toc-text">自定义数据校验注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90%E7%9F%A5%E8%AF%86"><span class="toc-number">2.4.1.</span> <span class="toc-text">前提知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E9%98%B6%E9%9C%80%E6%B1%82%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.4.2.</span> <span class="toc-text">进阶需求的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E6%A0%A1%E9%AA%8C"><span class="toc-number">2.5.</span> <span class="toc-text">分组校验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Validate%E5%92%8C-Valid%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.6.</span> <span class="toc-text">@Validate和@Valid的区别</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/28/java%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C/" title="基于JSR303的数据校验">基于JSR303的数据校验</a><time datetime="2023-02-28T11:27:00.000Z" title="发表于 2023-02-28 19:27:00">2023-02-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/18/mysql%E8%BF%9B%E9%98%B6%E9%83%A8%E5%88%86/" title="Mysql进阶部分">Mysql进阶部分</a><time datetime="2023-02-18T08:00:00.000Z" title="发表于 2023-02-18 16:00:00">2023-02-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/17/redis%E5%9F%BA%E7%A1%80%E4%B8%8E%E8%BF%9B%E9%98%B6/" title="redis基础与进阶">redis基础与进阶</a><time datetime="2023-02-17T02:16:00.000Z" title="发表于 2023-02-17 10:16:00">2023-02-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/15/nginx%E5%9F%BA%E7%A1%80%E8%AF%A6%E8%A7%A3/" title="nginx基础详解">nginx基础详解</a><time datetime="2023-02-15T02:34:00.000Z" title="发表于 2023-02-15 10:34:00">2023-02-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/04/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="23种设计模式详解笔记">23种设计模式详解笔记</a><time datetime="2023-02-04T08:59:00.000Z" title="发表于 2023-02-04 16:59:00">2023-02-04</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 孤江自流</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
